@@ -32,15 +32,44 @@ class Sword(Weapon):
     Deals 3-5 damage."""
     weapdmgmin = 3
     weapdmgmax = 5
+    equipable = True
+    useable = False
 
 
 class Dagger(Weapon):
     name = 'Dagger'
+    equipable = True
+    useable = False
     price = 10
     descrip = """A sharp dagger. Used for stabbing presumably.
     \nDeals 1-2 damage."""
     weapdmgmin = 1
     weapdmgmax = 5
+
+
+class Shortsword(Weapon):
+    name = "Shortsword"
+    equipable = True
+    useable = False
+    weapdmgmin = 2
+    price = 15
+    weapdmgmax = 4
+    descrip = """
+    A short sword. Good thing size isn't everything.\n
+    Deals 2-4 damage."""
+
+
+class Longsword(Weapon):
+    name = "Longsword"
+    equipable = True
+    useable = False
+    price = 35
+    descrip = """
+    Quite a long sword. Whoever said size isn't everything
+    didn't have one of these.\n
+    Deals 4-6 damage."""
+    weapdmgmin = 4
+    weapdmgmax = 6
 
 
 # Armor
@@ -73,3 +102,14 @@ class Chainmail(Armor):
     armor = 2
     descrip = '''Chainmail armor. If only it would stop pinching.
     \nProvides 2 armor.'''
+
+
+# Consumables
+class Potion(Item):
+    price = 5
+    name = "Potion"
+    number = 3
+    descrip = """A vial of red liquid. There's a tag attached to the cork.
+    'No animals were harmed in the making of this potion.'
+    I'm sure that's nothing to be concerned about.
+    Heals for 5-8 HP."""
