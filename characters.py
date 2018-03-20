@@ -1,5 +1,6 @@
 import items
 from random import randint
+import effects
 
 
 class Character:
@@ -10,6 +11,9 @@ class Character:
     armor = 0
     weapon = items.Dagger()
     evasion = 0
+    effect = None
+    powermod = 0
+    evasionmod = 0
 
     def check_status(self):
         print("{} has {} HP.".format(self.name, self.hp))
@@ -23,7 +27,7 @@ class Character:
             return 0
         else:
             dmg = self.weapon.weapdmg()
-            dmg += self.power
+            dmg += self.power + self.powermod
             critroll = randint(1, 20)
             if critroll == 20:
                 dmg *= 2
@@ -36,12 +40,19 @@ class Character:
 
     def dodge(self):
         try:
-            miss = (self.evasion * 40)/(self.evasion * 40) + self.evasion - 1
+            dodg = self.evasion + self.evasionmod
+            miss = (dodg*40)/(dodg*40)+dodg-1
         except ZeroDivisionError:
             miss = 0
         miss = round(miss)
         roll = randint(1, 100)
         if roll in range(0, miss + 1):
+            return True
+        else:
+            return False
+
+    def is_alive(self):
+        if self.hp > 0:
             return True
         else:
             return False
@@ -128,3 +139,9 @@ class Enemy(Character):
 
     def roll_for_special(self):
         pass
+
+
+class Goblin(Enemy):
+    weapon = items.Dagger()
+    hurt = 'The Goblins looking rough.'
+    unhurt = 'The Goblin glares menacingly.'
