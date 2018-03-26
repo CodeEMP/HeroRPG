@@ -48,7 +48,7 @@ class Dagger(Weapon):  # {{{
         self.descrip = """\tA sharp dagger. Used for stabbing presumably.
         \nDeals 1-2 damage."""
         self.weapdmgmin = 1
-        self.weapdmgmax = 5  # }}}
+        self.weapdmgmax = 2  # }}}
 
 
 class Shortsword(Weapon):  # {{{

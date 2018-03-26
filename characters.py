@@ -153,7 +153,7 @@ class Enemy(Character):  # {{{
                   self.weapon.name), end=" ")
             dmg = self.weapon.weapdmg()
             dmg += self.power
-            if target.dodge() is True:
+            if target.Dodge() is True:
                 print("and you dodge it!")
                 return 0
             else:
@@ -188,6 +188,7 @@ class Viper(Enemy):  # {{{
         self.weapon = items.Dagger()
         self.weapon.name = 'Bite'
         self.special = "Poison Bite"
+        self.special_type = 'target'
         self.armor = items.Unarmored()
 
     def roll_for_special(self):

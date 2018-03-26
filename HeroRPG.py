@@ -6,9 +6,7 @@ from random import randint
 
 
 class Battle():
-    def __innit__(self, hero, foes):
-        self.hero = hero
-        self.foes = foes
+    def __init__(self):
         self.turn = 1
 
     def Battle_start(self):  # {{{
@@ -47,8 +45,12 @@ class Battle():
             run = self.Player_options()
             if run is True:
                 break
+            self.Enemy_action()
+            input('Next Turn')
+            print('*' * 54)
+            self.turn += 1
 
-    def Player_options(self):
+    def Player_options(self):  # {{{
         while True:
             print()
             for i in foes:
@@ -59,9 +61,10 @@ class Battle():
             choice = input('> ')
             if choice == '1':
                 target = self.Choose_target()
+                print('*' * 54 + '\n')
                 dmg = hero.attack(foes[target])
                 foes[target].hp -= dmg
-            elif choice == '2':
+            elif choice == '2 TBA':
                 pass
             elif choice == '3':
                 check = self.Use_item_option()
@@ -81,7 +84,18 @@ class Battle():
                     del(foes[num])
                 else:
                     pass
-            break
+            break  # }}}
+
+    def Enemy_action(self):
+        for i in foes:
+            roll = i.roll_for_special()
+            if roll is True:
+                if i.special_type == 'target':
+                    i.special(hero)
+                elif i.special_type == 'self':
+                    i.special(i)
+            else:
+                i.attack(hero)
 
     def Flee(self):
         print('\nYou attempt to run!')
