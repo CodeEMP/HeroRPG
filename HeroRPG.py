@@ -2,6 +2,7 @@ import characters
 import items
 import locations
 import effects
+from random import randint
 
 
 class Battle():
@@ -43,7 +44,9 @@ class Battle():
         while hero.is_alive() and len(foes) > 0:
             self.Dots()
             print()
-            self.Player_options()
+            run = self.Player_options()
+            if run is True:
+                break
 
     def Player_options(self):
         while True:
@@ -61,22 +64,59 @@ class Battle():
             elif choice == '2':
                 pass
             elif choice == '3':
-                pass
+                check = self.Use_item_option()
+                if check is False:
+                    continue
             elif choice == '4':
-                pass
+                run = self.Flee()
+                if run is True:
+                    return True
             else:
                 print("\nInvalid Input\n")
                 continue
             for num, i in enumerate(foes):
                 if i.hp < 1:
                     print("{} dies!".format(i.name))
+                    hero.zenny += i.bounty
                     del(foes[num])
                 else:
                     pass
             break
 
+    def Flee(self):
+        print('\nYou attempt to run!')
+        roll = randint(1, 100)
+        if roll in range(1, 36):
+            print('And get away!')
+            return True
+        else:
+            print('And fail!')
+            return False
+
+    def Use_item_option(self):  # {{{
+        hero.show_inventory()
+        print('\nWhich Item?')
+        choice = int(input())
+        for num, i in enumerate(hero.inventory):
+            if choice - 1 == num:
+                if i.useable is True:
+                    if i.type == 'on self':
+                        print(i.descrip)
+                        confirm = input('Use? (y/n)').lower()
+                        if confirm == 'y':
+                            i.Use(hero)
+                        else:
+                            return False
+                    elif i.type == 'on target':
+                        target = self.Choose_target()
+                        i.Use(foes[target])
+                else:
+                    print("That items not useable right now.")
+                    return False
+            else:
+                pass  # }}}
+
     def Choose_target(self):  # {{{
-        while True:
             print()
             for num, i in enumerate(foes):
                 print('{}. {}'.format(num + 1, i.name))
@@ -93,7 +133,9 @@ town = locations.Town()
 hero = characters.Hero(50)
 hero.weapon = items.Sword()
 foes = [characters.Goblin(10), characters.Goblin(10)]
-fight = Battle()
 hero.Add_effect(effects.Poison(2))
+hero.add_item(items.Potion(), 3)
+hero.add_item(items.Longsword(), 1)
+fight = Battle()
 fight.Battle_start()
 fight.Battle_engine()

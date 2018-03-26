@@ -4,7 +4,7 @@ from random import randint
 class Item:
     def __init__(self):
         self.price = 0
-        self.number = 0
+        self.number = 1
         self.descrip = ''
 
     def description(self):
@@ -45,7 +45,7 @@ class Dagger(Weapon):  # {{{
         self.equipable = True
         self.useable = False
         self.price = 10
-        self.descrip = """A sharp dagger. Used for stabbing presumably.
+        self.descrip = """\tA sharp dagger. Used for stabbing presumably.
         \nDeals 1-2 damage."""
         self.weapdmgmin = 1
         self.weapdmgmax = 5  # }}}
@@ -67,7 +67,7 @@ class Shortsword(Weapon):  # {{{
 
 class Longsword(Weapon):  # {{{
     def __init__(self):
-        super().__init()
+        super().__init__()
         self.name = "Longsword"
         self.equipable = True
         self.useable = False
@@ -106,7 +106,7 @@ class Leather(Armor):  # {{{
         self.name = 'Leather'
         self.price = 20
         self.armor = 1
-        self.descrip = '''Leather armor. Maybe a little too tight.
+        self.descrip = '''\tLeather armor. Maybe a little too tight.
         \nProvides 1 armor.'''  # }}}
 
 
@@ -116,18 +116,28 @@ class Chainmail(Armor):  # {{{
         self.name = 'Chainmail'
         self.price = 35
         self.armor = 2
-        self.descrip = '''Chainmail armor. If only it would stop pinching.
+        self.descrip = '''\tChainmail armor. If only it would stop pinching.
         \nProvides 2 armor.'''  # }}}
 
 
 # Consumables
-class Potion(Item):
+class Potion(Item):  # {{{
     def __init__(self):
         super().__init__()
+        self.useable = True
         self.price = 5
         self.name = "Potion"
         self.number = 3
-        self.descrip = """A vial of red liquid. There's a tag attached to the cork.
+        self.type = 'on self'
+        self.descrip = """\tA vial of red liquid. There's a tag attached to the cork.
         "No hooved animals were harmed in the making of this potion."
         I'm sure that's nothing to be concerned about.
-        Heals for 5-8 HP."""
+        Heals for 10-13 HP."""
+
+    def Use(self, target):
+        print('\nYou Chug the Potion.')
+        heal = randint(10, 13)
+        print('It heals you for {}.'.format(heal))
+        target.hp += heal
+        if target.hp > target.maxhp:
+            target.hp = target.maxhp  # }}}

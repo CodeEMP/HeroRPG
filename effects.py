@@ -11,16 +11,16 @@ class Effect:
             return False
 
 
-class Boon(Effect):
-    type = 'Boon'
+class Boon(Effect):  # {{{
+    type = 'Boon'  # }}}
 
 
-class Dot(Effect):
-    type = 'Dot'
+class Dot(Effect):  # {{{
+    type = 'Dot'  # }}}
 
 
-class DeBuff(Effect):
-    type = 'Debuff'
+class DeBuff(Effect):  # {{{
+    type = 'Debuff'  # }}}
 
 
 class Poison(Dot):

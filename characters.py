@@ -19,8 +19,6 @@ class Character:
         print("{} has {} HP.".format(self.name, self.hp))
 
     def attack(self, target):
-        weapdmg = self.weapon.weapdmg()
-        dmg = weapdmg + self.power
         print("{} attacks with a {},"
               .format(self.name, self.weapon.name), end=' ')
         if target.Dodge() is True:
@@ -51,7 +49,7 @@ class Character:
             dodg = self.evasion + self.evasionmod
             miss = (dodg*40)/(dodg*40)+dodg-1
         except ZeroDivisionError:
-            miss = 0
+            miss = -1
         miss = round(miss)
         roll = randint(1, 100)
         if roll in range(0, miss + 1):
@@ -90,9 +88,9 @@ class Hero(Character):
         self.armor = items.Unarmored()
 
     def show_inventory(self):
-        for i in self.inventory:
+        for num, i in enumerate(self.inventory):
             if i.number > 0:
-                print("{}: {}".format(i.name, i.number))
+                print("{}. {}: {}".format(num + 1, i.name, i.number))
             else:
                 pass
 
@@ -124,9 +122,11 @@ class Hero(Character):
         for i in self.inventory:
             if i.name == item.name:
                 i.number -= num
+            if i.number < 1:
+                self.inventory.remove(i)
 
 
-class Enemy(Character):
+class Enemy(Character):  # {{{
     def __init__(self, hp):
         super().__init__(hp)
         self.descrip = ''
@@ -167,7 +167,7 @@ class Enemy(Character):
         pass
 
     def roll_for_special(self):
-        return False
+        return False  # }}}
 
 
 class Goblin(Enemy):  # {{{
@@ -177,10 +177,11 @@ class Goblin(Enemy):  # {{{
         self.weapon = items.Dagger()
         self.hurt = 'The Goblins looking rough.'
         self.unhurt = 'The Goblin glares menacingly.'
+        self.bounty = 2
         self.armor = items.Unarmored()  # }}}
 
 
-class Viper(Enemy):
+class Viper(Enemy):  # {{{
     def __init__(self, hp):
         super().__init__(hp)
         self.name = "Viper"
@@ -208,4 +209,4 @@ class Viper(Enemy):
                     if i.name == 'Poison':
                         i.duration = 3
                     else:
-                        target.Add_effect(effects.Poison(3))
+                        target.Add_effect(effects.Poison(3))  # }}}
