@@ -53,6 +53,8 @@ class Battle():
     def Player_options(self):  # {{{
         while True:
             print()
+            hero.check_status()
+            print()
             for i in foes:
                 i.check_status()
             print('\n' + '-' * 54)
@@ -86,7 +88,7 @@ class Battle():
                     pass
             break  # }}}
 
-    def Enemy_action(self):
+    def Enemy_action(self):  # {{{
         for i in foes:
             roll = i.roll_for_special()
             if roll is True:
@@ -95,9 +97,10 @@ class Battle():
                 elif i.special_type == 'self':
                     i.special(i)
             else:
-                i.attack(hero)
+                dmg = i.attack(hero)
+                hero.hp -= dmg  # }}}
 
-    def Flee(self):
+    def Flee(self):  # {{{
         print('\nYou attempt to run!')
         roll = randint(1, 100)
         if roll in range(1, 36):
@@ -105,7 +108,7 @@ class Battle():
             return True
         else:
             print('And fail!')
-            return False
+            return False  # }}}
 
     def Use_item_option(self):  # {{{
         hero.show_inventory()
@@ -132,16 +135,18 @@ class Battle():
 
     def Choose_target(self):  # {{{
             print()
-            for num, i in enumerate(foes):
-                print('{}. {}'.format(num + 1, i.name))
-            try:
-                target = int(input("Which target? "))
-                if target < len(foes) - 1 or target > len(foes):
-                    print("\nInvalid target\n")
-                else:
-                    return target - 1
-            except ValueError:
-                print("\nInvalid input\n")  # }}}
+            while True:
+                for num, i in enumerate(foes):
+                    print('{}. {}'.format(num + 1, i.name))
+                try:
+                    target = int(input("Which target? "))
+                    if target < len(foes) - 1 or target > len(foes):
+                        print("\nInvalid target\n")
+                    else:
+                        return target - 1
+                except ValueError:
+                    print("\nInvalid input\n")  # }}}
+                    continue
 
 town = locations.Town()
 hero = characters.Hero(50)

@@ -18,7 +18,7 @@ class Character:
     def check_status(self):
         print("{} has {} HP.".format(self.name, self.hp))
 
-    def attack(self, target):
+    def attack(self, target):  # {{{
         print("{} attacks with a {},"
               .format(self.name, self.weapon.name), end=' ')
         if target.Dodge() is True:
@@ -42,7 +42,7 @@ class Character:
                     dmg = 1
                 print("""and hits the {} for {} damage!
                       """.format(target.name, dmg))
-                return dmg
+                return dmg  # }}}
 
     def Dodge(self):  # {{{
         try:
