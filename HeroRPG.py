@@ -153,7 +153,7 @@ hero = characters.Hero(50)
 hero.weapon = items.Sword()
 foes = [characters.Goblin(10), characters.Goblin(10)]
 hero.Add_effect(effects.Poison(2))
-hero.add_item(items.Potion(), 3)
+hero.add_item(items.Potion(), 5)
 hero.add_item(items.Longsword(), 1)
 fight = Battle()
 fight.Battle_start()
